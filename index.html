@@ -26,6 +26,8 @@
 <!-- ═══ HERO ═══ -->
 <section class="hero" id="top">
   <canvas id="scope"></canvas>
+  <!-- subtle grid overlay -->
+  <div class="hero-grid-overlay"></div>
   <div class="hero-inner">
     <div class="hero-badge">
       <span class="badge-dot"></span>
@@ -35,11 +37,25 @@
       <span class="hn-line">Udit</span>
       <span class="hn-line hn-indent">Kothari</span>
     </h1>
-    <p class="hero-tagline">Electrical Engineer · RMIT + BITS Pilani · Graduating 2027</p>
+    <!-- annotation style comment — EE will get it -->
+    <div class="hero-annotation">
+      <span class="ann-bracket">/* </span>EE student · RMIT + BITS Pilani · Class of 2027<span class="ann-bracket"> */</span>
+    </div>
     <div class="hero-links">
       <a href="#work" class="hl-primary">See my work ↓</a>
       <a href="mailto:udit1044@gmail.com" class="hl-ghost">Get in touch</a>
     </div>
+  </div>
+  <!-- schematic ground symbol easter egg -->
+  <div class="hero-gnd">
+    <svg width="36" height="28" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="18" y1="0" x2="18" y2="10" stroke="rgba(79,140,240,0.3)" stroke-width="1.5"/>
+      <line x1="4" y1="10" x2="32" y2="10" stroke="rgba(79,140,240,0.3)" stroke-width="1.5"/>
+      <line x1="8" y1="16" x2="28" y2="16" stroke="rgba(79,140,240,0.25)" stroke-width="1.5"/>
+      <line x1="13" y1="22" x2="23" y2="22" stroke="rgba(79,140,240,0.18)" stroke-width="1.5"/>
+      <line x1="16" y1="27" x2="20" y2="27" stroke="rgba(79,140,240,0.12)" stroke-width="1.5"/>
+    </svg>
+    <span>GND</span>
   </div>
   <div class="hero-ticker">
     <div class="ticker-track">
@@ -61,27 +77,32 @@
           <span>Supervised: Prof. Bhaskaran · Prof. Sriram</span>
         </div>
       </div>
-      <p class="proj-logline">Non-invasive glucose + sodium monitoring from sweat. The entire sensing system — sensor, AFE, MCU, BLE radio — has to fit inside an eyeglass temple. That's a <strong>&lt;12mm width constraint.</strong></p>
+      <p class="proj-logline">Non-invasive glucose + sodium monitoring from sweat. Everything — sensor, AFE, MCU, BLE radio — jammed inside an eyeglass temple. That's a <strong>&lt;12mm width constraint.</strong> No blood. No needles. Just math and a very stubborn flex PCB.</p>
     </div>
     <div class="spec-strip reveal">
-      <div class="spec-item"><div class="spec-val">&lt;12mm</div><div class="spec-key">Form factor</div></div>
+      <div class="spec-item">
+        <div class="spec-val">&lt;12mm</div>
+        <div class="spec-key">Form factor</div>
+        <!-- net tie easter egg -->
+        <div class="spec-nt" title="net tie — because analog and digital power rails stay separated">≈∿</div>
+      </div>
       <div class="spec-item"><div class="spec-val">40µm</div><div class="spec-key">Electrode pitch</div></div>
       <div class="spec-item"><div class="spec-val">2</div><div class="spec-key">Analytes detected</div></div>
       <div class="spec-item"><div class="spec-val">0</div><div class="spec-key">Blood required</div></div>
       <div class="spec-item"><div class="spec-val">600mV</div><div class="spec-key">Ripple predicted &amp; solved</div></div>
     </div>
     <div class="problems reveal">
-      <div class="prob-label">Two failures predicted on paper. Zero prototypes wasted.</div>
+      <div class="prob-label">Two failures caught on paper. Zero prototypes wasted.</div>
       <div class="prob-grid">
         <div class="prob-card">
           <div class="prob-top"><span class="prob-num">P01</span><span class="prob-name">15-Second Diffusion Crisis</span></div>
-          <p class="prob-body">Fick's Laws: H⁺ ions from the GOx reaction would cross the 5mm inter-electrode gap in 10–15 seconds. The sodium baseline would be chemically destroyed before the 60-second glucose window closed.</p>
-          <div class="prob-solve"><span class="solve-tag">Solved</span>Rerouted the flex PCB into a T-Wing geometry. Physical isolation extended diffusion time to &gt;90 seconds. Geometry solved chemistry.</div>
+          <p class="prob-body">Fick's Laws: H⁺ ions from the GOx reaction would cross the 5mm inter-electrode gap in 10–15 seconds. The sodium baseline would be chemically destroyed before the 60-second glucose window even closed. Classic case of chemistry not caring about your schedule.</p>
+          <div class="prob-solve"><span class="solve-tag">Solved</span>Rerouted the flex PCB into a T-Wing geometry. Physical isolation stretched diffusion time to &gt;90 seconds. Geometry fixed what chemistry couldn't.</div>
         </div>
         <div class="prob-card">
           <div class="prob-top"><span class="prob-num">P02</span><span class="prob-name">BLE Voltage Crash</span></div>
-          <p class="prob-body">Calculated: 15mA BLE burst × 40Ω CR2032 ESR = 600mV sag per transmission. Op-amp outputs would rail and mask every physiological reading.</p>
-          <div class="prob-solve"><span class="solve-tag">Solved</span>Replaced CR2032 with 112mAh LiPo + Dual-LDO analog/digital isolation. All on paper, before a single component was ordered.</div>
+          <p class="prob-body">Calculated: 15mA BLE burst × 40Ω CR2032 ESR = 600mV sag per transmission. Op-amp outputs would rail on every BLE packet. The sensor would broadcast garbage precisely when it was being read.</p>
+          <div class="prob-solve"><span class="solve-tag">Solved</span>Swapped CR2032 for 112mAh LiPo + Dual-LDO analog/digital isolation. Figured it out before a single component was ordered.</div>
         </div>
       </div>
     </div>
@@ -103,7 +124,7 @@
     <div class="exp-grid">
 
       <!-- FMM -->
-      <div class="exp-card reveal" data-card="fmm">
+      <div class="exp-card reveal" data-card="fmm" data-modal="modal-fmm">
         <div class="exp-card-inner">
           <div class="exp-header">
             <div>
@@ -111,33 +132,15 @@
               <h3 class="exp-role">FMM Research Lab</h3>
               <p class="exp-org">RMIT Functional Materials &amp; Microsystems · 2025–Present</p>
             </div>
-            <div class="exp-toggle" aria-label="Expand">+</div>
+            <div class="exp-toggle" aria-label="Open">+</div>
           </div>
-          <p class="exp-desc">Designing and building a wearable multi-analyte biosensor under Prof. Bhaskaran and Prof. Sriram — from EDA schematic through to flex PCB manufacture. Mathematical modelling before every fabrication decision.</p>
+          <p class="exp-desc">Building a wearable multi-analyte biosensor under Prof. Bhaskaran and Prof. Sriram. EDA schematic through to flex PCB manufacture — with mathematical modelling before every fabrication call.</p>
           <div class="exp-tags"><span>Mixed-Signal PCB</span><span>EasyEDA</span><span>BLE</span><span>LTspice</span></div>
-          <div class="exp-expanded">
-            <div class="exp-expanded-inner">
-              <div class="exp-detail-grid">
-                <div class="exp-detail-block">
-                  <div class="exp-detail-label">Real challenge</div>
-                  <p>Twice during the project, a component we'd designed around went out of stock by the time we reached the ordering stage. Each time, it forced a rapid design pivot — finding an equivalent part, validating it against the schematic, and re-running simulations. Uncomfortable, but it built genuine speed and hardware instinct fast.</p>
-                </div>
-                <div class="exp-detail-block">
-                  <div class="exp-detail-label">What I built</div>
-                  <p>Full schematic-to-PCB flow in EasyEDA across multiple revisions. Analog front-end with TI OPA2333 zero-drift op-amps, dual-LDO power isolation, BLE radio integration via u-blox ANNA-B402, and a flex PCB topology that solved a diffusion physics problem geometrically.</p>
-                </div>
-                <div class="exp-detail-block">
-                  <div class="exp-detail-label">What I learned</div>
-                  <p>Mixed-signal layout discipline. How to protect sensitive analog circuits from digital switching noise mathematically, before fabrication. How to read electrochemistry literature and translate it into hardware constraints. And that supply chain is a real engineering variable.</p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
       <!-- TEDx -->
-      <div class="exp-card reveal" data-card="tedx">
+      <div class="exp-card reveal" data-card="tedx" data-modal="modal-tedx">
         <div class="exp-card-inner">
           <div class="exp-header">
             <div>
@@ -145,33 +148,15 @@
               <h3 class="exp-role">TEDx College Organiser</h3>
               <p class="exp-org">Speaker Research Team Head · 2023–2024</p>
             </div>
-            <div class="exp-toggle" aria-label="Expand">+</div>
+            <div class="exp-toggle" aria-label="Open">+</div>
           </div>
-          <p class="exp-desc">Led the speaker research team for two TEDx college events — 100+ attendees each. Full event logistics, stakeholder coordination, and on-ground execution with a 10+ member cross-functional team.</p>
+          <p class="exp-desc">Led speaker research for two TEDx events — 100+ attendees each. Full logistics, stakeholder wrangling, and on-ground execution with a 10+ member team. Including one speaker dropout 3 days out.</p>
           <div class="exp-tags"><span>Team Leadership</span><span>Speaker Research</span><span>Event Operations</span></div>
-          <div class="exp-expanded">
-            <div class="exp-expanded-inner">
-              <div class="exp-detail-grid">
-                <div class="exp-detail-block">
-                  <div class="exp-detail-label">The crisis</div>
-                  <p>Three days before one event, a main speaker pulled out. As speaker research team head, I had to find, vet, and confirm a backup speaker in under 72 hours — while the rest of the event logistics were already in motion. We got it done.</p>
-                </div>
-                <div class="exp-detail-block">
-                  <div class="exp-detail-label">My role</div>
-                  <p>Speaker Research Team Head. Responsible for identifying and vetting speakers, managing speaker communication, and briefing them on format and expectations. Coordinated with the broader team of 10+ members across two separate events.</p>
-                </div>
-                <div class="exp-detail-block">
-                  <div class="exp-detail-label">What I learned</div>
-                  <p>How to hold things together when something breaks late. The difference between planning for an event and running one. Communication clarity under pressure — especially when the stakes feel high to everyone involved.</p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
       <!-- Conquer Cancer -->
-      <div class="exp-card reveal" data-card="cc">
+      <div class="exp-card reveal" data-card="cc" data-modal="modal-cc">
         <div class="exp-card-inner">
           <div class="exp-header">
             <div>
@@ -179,33 +164,15 @@
               <h3 class="exp-role">Conquer Cancer Australia</h3>
               <p class="exp-org">Guinness World Record Relay · 2026</p>
             </div>
-            <div class="exp-toggle" aria-label="Expand">+</div>
+            <div class="exp-toggle" aria-label="Open">+</div>
           </div>
-          <p class="exp-desc">Volunteered multiple times across a 24/7, 30-day relay event in Melbourne — one of Australia's most sustained charity fundraising efforts. Managed logistics, crowds, and coordination for a cause that demanded steady professionalism throughout.</p>
+          <p class="exp-desc">Volunteered across a 24/7, 30-day relay event in Melbourne. Registration, donation coordination, photography, BBQ logistics, ushering — whatever needed doing on each shift.</p>
           <div class="exp-tags"><span>Event Logistics</span><span>People Management</span><span>Public Engagement</span></div>
-          <div class="exp-expanded">
-            <div class="exp-expanded-inner">
-              <div class="exp-detail-grid">
-                <div class="exp-detail-block">
-                  <div class="exp-detail-label">The event</div>
-                  <p>A Guinness World Record relay that ran continuously for 30 days, 24 hours a day. Participants rotated in shifts. I volunteered across multiple sessions — handling registration, donation coordination, photography, BBQ logistics, and ushering depending on what the event needed that day.</p>
-                </div>
-                <div class="exp-detail-block">
-                  <div class="exp-detail-label">The real challenge</div>
-                  <p>Managing large groups of people when there's an emotionally charged cause running in the background is genuinely difficult. People are tired, they're there for personal reasons, and logistics still need to run cleanly. Staying composed and practical in that environment was the real skill.</p>
-                </div>
-                <div class="exp-detail-block">
-                  <div class="exp-detail-label">Why it matters</div>
-                  <p>Volunteering for a sustained event isn't a one-day commitment. It required showing up repeatedly, adapting to different roles each time, and keeping the same level of professionalism across every shift regardless of what else was going on.</p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
       <!-- Swimming -->
-      <div class="exp-card reveal" data-card="swim">
+      <div class="exp-card reveal" data-card="swim" data-modal="modal-swim">
         <div class="exp-card-inner">
           <div class="exp-header">
             <div>
@@ -213,34 +180,117 @@
               <h3 class="exp-role">National-Level Swimmer</h3>
               <p class="exp-org">India · Breaststroke · 2017–2024</p>
             </div>
-            <div class="exp-toggle" aria-label="Expand">+</div>
+            <div class="exp-toggle" aria-label="Open">+</div>
           </div>
-          <p class="exp-desc">Represented state and school at national championships in breaststroke. 10–12 sessions per week for seven years, alongside a full academic load — a commitment that built the discipline and pressure management I bring to engineering.</p>
+          <p class="exp-desc">State and national championships in breaststroke. 10–12 sessions per week for seven years, on top of a full academic load. The discipline that training builds is genuinely useful in an engineering lab.</p>
           <div class="exp-tags"><span>National Championships</span><span>7 Years</span><span>Breaststroke</span></div>
-          <div class="exp-expanded">
-            <div class="exp-expanded-inner">
-              <div class="exp-detail-grid">
-                <div class="exp-detail-block">
-                  <div class="exp-detail-label">Achievement</div>
-                  <p>Represented my state and school at national level championships in breaststroke. Getting to nationals in India — across the full competition pool — requires sustained, multi-year commitment to structured training with measurable performance benchmarks every season.</p>
-                </div>
-                <div class="exp-detail-block">
-                  <div class="exp-detail-label">The actual workload</div>
-                  <p>10–12 sessions per week for seven consecutive years, alongside a full school and then university academic load. Early mornings, late evenings, no off-seasons. The ability to perform consistently under fatigue and pressure is something you only build by doing it repeatedly for years.</p>
-                </div>
-                <div class="exp-detail-block">
-                  <div class="exp-detail-label">Why it's relevant</div>
-                  <p>Engineering under a deadline with incomplete information is a pressure environment. So is competing at national level. The cognitive habits — staying methodical when things aren't going right, managing performance across long cycles, knowing when to push and when to recover — transfer directly.</p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
     </div>
   </div>
 </section>
+
+<!-- ═══ EXPERIENCE MODALS ═══ -->
+<div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+  <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+
+  <!-- FMM Modal -->
+  <div class="modal" id="modal-fmm" role="dialog" aria-modal="true">
+    <div class="modal-top">
+      <div class="modal-eyebrow">Research · Lab Work</div>
+      <h2 class="modal-title">FMM Research Lab</h2>
+      <p class="modal-sub">RMIT Functional Materials &amp; Microsystems · 2025–Present</p>
+    </div>
+    <div class="modal-body">
+      <div class="modal-block">
+        <div class="modal-label">The actual problem</div>
+        <p>Twice during the project, a component we'd designed around went out of stock right when we hit the ordering stage. Each time — find an equivalent, validate against the schematic, re-run the sims. It's uncomfortable. It also builds hardware instinct faster than any textbook.</p>
+      </div>
+      <div class="modal-block">
+        <div class="modal-label">What I built</div>
+        <p>Full schematic-to-PCB flow in EasyEDA across multiple revisions. Analog front-end with TI OPA2333 zero-drift op-amps, dual-LDO power isolation, BLE radio via u-blox ANNA-B402, and a flex PCB geometry that solved a diffusion physics problem by rerouting copper.</p>
+      </div>
+      <div class="modal-block">
+        <div class="modal-label">What I learned</div>
+        <p>Mixed-signal layout discipline. How to protect analog circuits from digital switching noise — mathematically, before fabrication. How to read electrochemistry literature and translate it into hardware constraints. Supply chain is a real engineering variable.</p>
+      </div>
+    </div>
+    <div class="modal-tags"><span>Mixed-Signal PCB</span><span>EasyEDA</span><span>BLE</span><span>LTspice</span><span>Analog Front-End</span><span>Flex PCB</span></div>
+  </div>
+
+  <!-- TEDx Modal -->
+  <div class="modal" id="modal-tedx" role="dialog" aria-modal="true">
+    <div class="modal-top">
+      <div class="modal-eyebrow">Leadership · Event Management</div>
+      <h2 class="modal-title">TEDx College Organiser</h2>
+      <p class="modal-sub">Speaker Research Team Head · 2023–2024</p>
+    </div>
+    <div class="modal-body">
+      <div class="modal-block">
+        <div class="modal-label">The crisis</div>
+        <p>Three days before one event, the main speaker pulled out. As speaker research lead, I had 72 hours to find, vet, and confirm a replacement — while the rest of the event was already in motion. We got it done. That kind of pressure is clarifying.</p>
+      </div>
+      <div class="modal-block">
+        <div class="modal-label">My role</div>
+        <p>Speaker Research Team Head. Identifying and vetting speakers, managing all speaker communication, and briefing them on format and expectations. Coordinated across a 10+ member team for two separate events, both 100+ attendees.</p>
+      </div>
+      <div class="modal-block">
+        <div class="modal-label">What I learned</div>
+        <p>The gap between planning an event and running one is massive. Communication under pressure — when the stakes feel real to everyone around you — is a completely different skill to communication in a calm room. Glad I found that out early.</p>
+      </div>
+    </div>
+    <div class="modal-tags"><span>Team Leadership</span><span>Speaker Research</span><span>Stakeholder Management</span><span>Event Operations</span></div>
+  </div>
+
+  <!-- CC Modal -->
+  <div class="modal" id="modal-cc" role="dialog" aria-modal="true">
+    <div class="modal-top">
+      <div class="modal-eyebrow">Community · Volunteering</div>
+      <h2 class="modal-title">Conquer Cancer Australia</h2>
+      <p class="modal-sub">Guinness World Record Relay · 2026</p>
+    </div>
+    <div class="modal-body">
+      <div class="modal-block">
+        <div class="modal-label">The event</div>
+        <p>A Guinness World Record relay that ran continuously for 30 days, 24 hours a day. Participants rotated in shifts across the full month. I volunteered across multiple sessions — different roles each time, depending on what needed doing.</p>
+      </div>
+      <div class="modal-block">
+        <div class="modal-label">The real challenge</div>
+        <p>Managing people at an emotionally charged public event is genuinely hard. Attendees are tired, they're there for personal reasons, and logistics still need to run cleanly. Staying composed when it's chaotic around you — that's the actual skill.</p>
+      </div>
+      <div class="modal-block">
+        <div class="modal-label">Why it matters</div>
+        <p>Sustained commitment over time is different from showing up once. It required adapting to different roles across every shift and maintaining the same professionalism regardless of how long the event had been running. Same thing I do in a long design cycle.</p>
+      </div>
+    </div>
+    <div class="modal-tags"><span>Event Logistics</span><span>People Management</span><span>Public Engagement</span><span>Multi-Role Adaptability</span></div>
+  </div>
+
+  <!-- Swim Modal -->
+  <div class="modal" id="modal-swim" role="dialog" aria-modal="true">
+    <div class="modal-top">
+      <div class="modal-eyebrow">Athletics · Discipline</div>
+      <h2 class="modal-title">National-Level Swimmer</h2>
+      <p class="modal-sub">India · Breaststroke · 2017–2024</p>
+    </div>
+    <div class="modal-body">
+      <div class="modal-block">
+        <div class="modal-label">Achievement</div>
+        <p>State and national championships in breaststroke. Getting to nationals in India means competing across the full pool — it requires multi-year commitment with measurable performance benchmarks every season. No shortcutting your way to that.</p>
+      </div>
+      <div class="modal-block">
+        <div class="modal-label">The actual workload</div>
+        <p>10–12 sessions a week for seven years alongside a full academic load. Early mornings, late evenings, no real off-seasons. The ability to perform consistently under fatigue — that's not something you read about. You either have it or you don't.</p>
+      </div>
+      <div class="modal-block">
+        <div class="modal-label">Why it's relevant</div>
+        <p>Engineering under a deadline with incomplete information is a pressure environment. So is competing. The habits — staying methodical when things aren't going right, managing output across long cycles, knowing when to push — transfer directly to lab work and design reviews.</p>
+      </div>
+    </div>
+    <div class="modal-tags"><span>National Championships</span><span>7 Years</span><span>Breaststroke</span><span>High Performance</span></div>
+  </div>
+</div>
 
 <!-- ═══ COURSEWORK ═══ -->
 <section class="section" id="coursework">
@@ -263,13 +313,9 @@
             </div>
             <div class="cw-card-tag">Control</div>
           </div>
-          <p class="cw-desc">Designed PID and pole-assignment controllers. Built state-space models using state feedback and state observers. Worked through frequency response analysis, resonant controller design, cascade systems, and automatic tuning methods.</p>
+          <p class="cw-desc">Designed PID and pole-assignment controllers. State-space models with state feedback and observers. Frequency response, resonant controllers, cascade systems, automatic tuning. The bit where you realize why people say "all models are wrong but some are useful."</p>
           <div class="cw-highlights">
-            <span>PID tuning &amp; fine-tuning</span>
-            <span>Pole-assignment design</span>
-            <span>State-space / observers</span>
-            <span>Cascade control</span>
-            <span>Step response testing</span>
+            <span>PID tuning &amp; fine-tuning</span><span>Pole-assignment design</span><span>State-space / observers</span><span>Cascade control</span><span>Step response testing</span>
           </div>
         </div>
 
@@ -281,13 +327,9 @@
             </div>
             <div class="cw-card-tag">Power</div>
           </div>
-          <p class="cw-desc">Modelled and analysed large-scale power systems — transmission lines under steady-state and transient conditions, balanced and unbalanced fault analysis, power quality, and voltage control for renewable-rich distribution feeders. Ran load flow and fault simulations in PowerFactory.</p>
+          <p class="cw-desc">Modelled large-scale transmission systems — steady-state and transients, balanced and unbalanced faults, symmetrical components, travelling wave theory. Voltage control for renewable-heavy feeders. The course where per-unit calculations become second nature.</p>
           <div class="cw-highlights">
-            <span>Per-unit calculations</span>
-            <span>Fault analysis (balanced + unbalanced)</span>
-            <span>Symmetrical components</span>
-            <span>Travelling wave theory</span>
-            <span>Voltage control</span>
+            <span>Per-unit calculations</span><span>Fault analysis (balanced + unbalanced)</span><span>Symmetrical components</span><span>Travelling wave theory</span><span>Voltage control</span>
           </div>
         </div>
 
@@ -299,13 +341,9 @@
             </div>
             <div class="cw-card-tag">Comms</div>
           </div>
-          <p class="cw-desc">Hands-on with communication hardware and systems. Worked through AM/FM modulation, digital baseband signalling, inter-symbol interference, error rates, and optical fibre system design. Used a CRO to observe real signal behaviour and LabVIEW for system modelling.</p>
+          <p class="cw-desc">AM/FM modulation, digital baseband signalling, ISI, error rates, optical fibre design. Used a CRO to see what signals actually look like vs what the theory says. LabVIEW for system modelling. Time and frequency domain as daily vocabulary.</p>
           <div class="cw-highlights">
-            <span>AM / FM modulation</span>
-            <span>Digital baseband signalling</span>
-            <span>ISI &amp; error rates</span>
-            <span>Optical fibre design</span>
-            <span>Time / frequency domain</span>
+            <span>AM / FM modulation</span><span>Digital baseband signalling</span><span>ISI &amp; error rates</span><span>Optical fibre design</span><span>Time / frequency domain</span>
           </div>
         </div>
 
@@ -317,13 +355,9 @@
             </div>
             <div class="cw-card-tag">Power</div>
           </div>
-          <p class="cw-desc">Designed SMPS circuits from scratch in lab sessions — including magnetic component design and auxiliary circuits for a fully functional flyback converter. Simulated in PSIM first, then validated against physical hardware. Closed-loop regulator design with PWM feedback and loop stabilisation.</p>
+          <p class="cw-desc">Designed SMPS circuits from scratch — including magnetic component design and a fully functional flyback converter. Simulated first in PSIM, then built in lab. Closed-loop regulator with PWM feedback and loop stabilisation. Transformers stop being mysterious after this one.</p>
           <div class="cw-highlights">
-            <span>Buck / Boost converters</span>
-            <span>Flyback topology</span>
-            <span>Transformer design</span>
-            <span>PWM + feedback regulation</span>
-            <span>Thermal management</span>
+            <span>Buck / Boost converters</span><span>Flyback topology</span><span>Transformer design</span><span>PWM + feedback regulation</span><span>Thermal management</span>
           </div>
         </div>
 
@@ -342,13 +376,9 @@
             </div>
             <div class="cw-card-tag">Automation</div>
           </div>
-          <p class="cw-desc">Programmed real Siemens S7 industrial PLCs using TIA Portal. Wrote Ladder Logic for closed-loop control systems with analog and digital I/O. Worked with discrete sensors, actuators, ADC channels, and industrial networks. Designed automation systems that were safe, robust, and user-verified.</p>
+          <p class="cw-desc">Programmed real Siemens S7 industrial PLCs using TIA Portal. Ladder Logic for closed-loop control with analog and digital I/O. Discrete sensors, actuators, ADC channels, industrial networks. The first time you see a rung scan and go "oh, that's just a for loop with extra steps."</p>
           <div class="cw-highlights">
-            <span>Ladder Logic (Bit, Timer, Counter)</span>
-            <span>Sequential logic systems</span>
-            <span>Analog-digital conversion</span>
-            <span>Discrete sensors + actuators</span>
-            <span>Industrial networks</span>
+            <span>Ladder Logic (Bit, Timer, Counter)</span><span>Sequential logic systems</span><span>Analog-digital conversion</span><span>Discrete sensors + actuators</span><span>Industrial networks</span>
           </div>
         </div>
 
@@ -360,13 +390,9 @@
             </div>
             <div class="cw-card-tag">Power</div>
           </div>
-          <p class="cw-desc">Lab-heavy course covering the full power electronics conversion chain. Ran tests on diode and SCR rectifiers, DC-DC converters (buck, boost, buck-boost in CCM/DCM), variable speed drives, and PWM inverters. Simulated each topology in PSIM and compared against measured results.</p>
+          <p class="cw-desc">Lab-heavy course covering the full power electronics conversion chain. Diode and SCR rectifiers, DC-DC converters in CCM/DCM, variable speed drives, PWM inverters. Simulated in PSIM and compared against actual measured results — the gap is always educational.</p>
           <div class="cw-highlights">
-            <span>Diode + SCR rectifiers</span>
-            <span>Buck / Boost / Buck-Boost</span>
-            <span>Sinusoidal PWM inverters</span>
-            <span>Variable speed drives</span>
-            <span>Renewable energy systems</span>
+            <span>Diode + SCR rectifiers</span><span>Buck / Boost / Buck-Boost</span><span>Sinusoidal PWM inverters</span><span>Variable speed drives</span><span>Renewable energy systems</span>
           </div>
         </div>
 
@@ -378,13 +404,9 @@
             </div>
             <div class="cw-card-tag">Machines</div>
           </div>
-          <p class="cw-desc">Measured and characterised transformers, DC motors, induction motors, and synchronous machines in the lab. Built equivalent circuit models and compared experimental results against theoretical predictions. Three-phase systems, rotating magnetic field analysis, and electrical drives for industrial applications.</p>
+          <p class="cw-desc">Measured and characterised transformers, DC motors, induction motors, and synchronous machines in the lab. Built equivalent circuit models and compared against theory. The course that makes you respect how much engineering went into the machines that just sit quietly in the corner.</p>
           <div class="cw-highlights">
-            <span>Transformers (1φ + 3φ)</span>
-            <span>DC + induction motors</span>
-            <span>Synchronous generators</span>
-            <span>Equivalent circuit modelling</span>
-            <span>Active / reactive power measurement</span>
+            <span>Transformers (1φ + 3φ)</span><span>DC + induction motors</span><span>Synchronous generators</span><span>Equivalent circuit modelling</span><span>Active / reactive power measurement</span>
           </div>
         </div>
 
@@ -396,13 +418,9 @@
             </div>
             <div class="cw-card-tag">ML / AI</div>
           </div>
-          <p class="cw-desc">Applied data analytics and ML techniques to engineering problems in Python. Covered neural networks, regression, numerical and population-based optimisation, data classification, clustering, and dimensionality reduction. Built and trained intelligent systems with real engineering applications.</p>
+          <p class="cw-desc">ML applied to engineering problems — neural networks, regression, numerical and evolutionary optimisation, classification, clustering, dimensionality reduction. Building and training models for real engineering applications. Where you learn that "train the model longer" is rarely the answer.</p>
           <div class="cw-highlights">
-            <span>Artificial neural networks</span>
-            <span>Regression analysis</span>
-            <span>Optimisation (numerical + evolutionary)</span>
-            <span>Data classification + clustering</span>
-            <span>Feature selection</span>
+            <span>Artificial neural networks</span><span>Regression analysis</span><span>Optimisation (numerical + evolutionary)</span><span>Data classification + clustering</span><span>Feature selection</span>
           </div>
         </div>
 
@@ -411,39 +429,49 @@
   </div>
 </section>
 
-<!-- ═══ STACK ═══ -->
+<!-- ═══ STACK (new: schematic block diagram) ═══ -->
 <section class="section section-alt" id="stack">
   <div class="wrap">
     <div class="s-eyebrow reveal"><span class="s-num">04</span><span class="s-label">Technical Stack</span></div>
     <div class="stack-intro reveal">
-      <h2 class="stack-title">Skills as a PCB layer stack.</h2>
-      <p class="stack-sub">Every skill lives at a defined layer — from copper traces to firmware.</p>
+      <h2 class="stack-title">Skills as a system block diagram.</h2>
+      <p class="stack-sub">Every block has an input, an output, and a reason to exist. Reading left to right — from raw signal to useful output.</p>
     </div>
-    <div class="stackup reveal">
-      <div class="layer">
-        <div class="layer-bar layer-bar-1"></div>
-        <div class="layer-side"><span class="layer-num">L1</span><span class="layer-name">Physical Layer</span><span class="layer-material">FR-4 · Copper · Solder Mask</span></div>
-        <div class="layer-body"><div class="layer-skills"><span>PCB Design (2-layer mixed-signal)</span><span>Analog signal conditioning</span><span>Sensor interfacing</span><span>Hardware prototyping</span><span>Soldering &amp; assembly</span><span>EasyEDA</span></div></div>
+    <div class="blk-diagram reveal">
+      <!-- Row 1: signal chain -->
+      <div class="blk-row">
+        <div class="blk" data-color="copper">
+          <div class="blk-label">INPUT</div>
+          <div class="blk-name">Physical Hardware</div>
+          <div class="blk-skills">PCB Design (2-layer) · Analog signal conditioning · Sensor interfacing · Soldering · EasyEDA</div>
+        </div>
+        <div class="blk-arrow">→</div>
+        <div class="blk" data-color="blue">
+          <div class="blk-label">SIM / MODEL</div>
+          <div class="blk-name">Simulation</div>
+          <div class="blk-skills">LTspice · MATLAB / Simulink · PSIM · DIgSILENT PowerFactory · LabVIEW</div>
+        </div>
+        <div class="blk-arrow">→</div>
+        <div class="blk" data-color="green">
+          <div class="blk-label">SYSTEMS</div>
+          <div class="blk-name">Power &amp; Control</div>
+          <div class="blk-skills">SMPS design · Advanced control (PID, pole-assignment) · Power systems · PLC / Ladder Logic · Electrical machines</div>
+        </div>
+        <div class="blk-arrow">→</div>
+        <div class="blk" data-color="purple">
+          <div class="blk-label">OUTPUT</div>
+          <div class="blk-name">Firmware &amp; Code</div>
+          <div class="blk-skills">Python (ML, data analytics) · Arduino / Embedded C · nRF5 SDK · AutoCAD · SolidWorks</div>
+        </div>
       </div>
-      <div class="layer">
-        <div class="layer-bar layer-bar-2"></div>
-        <div class="layer-side"><span class="layer-num">L2</span><span class="layer-name">Simulation Layer</span><span class="layer-material">SPICE · MATLAB · PSIM</span></div>
-        <div class="layer-body"><div class="layer-skills"><span>LTspice — analog circuit sim</span><span>MATLAB / Simulink</span><span>PSIM — power electronics</span><span>DIgSILENT PowerFactory</span><span>LabVIEW</span></div></div>
+      <!-- feedback line -->
+      <div class="blk-feedback">
+        <div class="blk-feedback-line"></div>
+        <span class="blk-feedback-label">feedback loop — sim validates hardware, hardware validates sim</span>
       </div>
-      <div class="layer">
-        <div class="layer-bar layer-bar-3"></div>
-        <div class="layer-side"><span class="layer-num">L3</span><span class="layer-name">Systems Layer</span><span class="layer-material">Power · Control · Automation</span></div>
-        <div class="layer-body"><div class="layer-skills"><span>Power systems analysis &amp; control</span><span>Switched mode power supply design</span><span>Advanced control systems (PID, pole-assignment)</span><span>PLC programming (Siemens TIA Portal)</span><span>Electrical energy conversion</span><span>Electrical machines</span></div></div>
-      </div>
-      <div class="layer">
-        <div class="layer-bar layer-bar-4"></div>
-        <div class="layer-side"><span class="layer-num">L4</span><span class="layer-name">Code Layer</span><span class="layer-material">Firmware · Scripting · ML</span></div>
-        <div class="layer-body"><div class="layer-skills"><span>Python (ML, data analytics)</span><span>Arduino IDE / Embedded C</span><span>nRF5 SDK (BLE firmware)</span><span>AutoCAD · SolidWorks</span></div></div>
-      </div>
-      <div class="stack-dimension">
-        <div class="dim-line"></div>
-        <span class="dim-label">1.6mm total · Dual degree RMIT + BITS Pilani</span>
-        <div class="dim-line"></div>
+      <!-- annotation -->
+      <div class="blk-annotation">
+        <span class="ann-bracket">// </span>dual degree RMIT Melbourne + BITS Pilani · expected June 2027
       </div>
     </div>
   </div>
@@ -456,7 +484,7 @@
       <div class="contact-left reveal">
         <div class="s-eyebrow" style="margin-bottom:28px"><span class="s-num">05</span><span class="s-label">Contact</span></div>
         <h2 class="contact-big">Let's<br>talk.</h2>
-        <p class="contact-note">Internships in hardware, power systems, BMS, or energy storage. Melbourne or remote.</p>
+        <p class="contact-note">Internships in hardware, power systems, BMS, or energy storage. Melbourne or remote. Response time: reasonable.</p>
       </div>
       <div class="contact-links reveal">
         <a href="mailto:udit1044@gmail.com" class="c-link"><span class="c-link-label">Email</span><span class="c-link-val">udit1044@gmail.com</span><span class="c-arrow">↗</span></a>
@@ -470,6 +498,8 @@
 
 <footer class="footer">
   <span>© 2026 Udit Kothari</span>
+  <!-- voltage divider ratio easter egg: Vout = Vin × R2/(R1+R2) = exactly 1 when R1=0 -->
+  <span class="footer-ee" title="V_out = V_in · R₂/(R₁+R₂)">R₁=0Ω · R₂=∞Ω · η=100%</span>
   <span>Melbourne, AU · RMIT + BITS Pilani</span>
 </footer>
 
