@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Udit Kothari — EE</title>
+  <meta name="description" content="Udit Kothari — Electrical Engineering student at RMIT. Wearable biosensors, mixed-signal PCB, power systems."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#top" class="nav-logo">UK<span>.</span></a>
+  <div class="nav-links">
+    <a href="#work">work</a>
+    <a href="#experience">experience</a>
+    <a href="#stack">stack</a>
+    <a href="#contact">contact</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="top">
+  <canvas id="scope"></canvas>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Open to internships · Melbourne
+    </div>
+    <h1 class="hero-name">
+      <span class="hn-line">Udit</span>
+      <span class="hn-line hn-indent">Kothari</span>
+    </h1>
+    <p class="hero-tagline">Electrical Engineer · RMIT + BITS Pilani · Graduating 2027</p>
+    <div class="hero-links">
+      <a href="#work" class="hl-primary">See my work ↓</a>
+      <a href="mailto:udit1044@gmail.com" class="hl-ghost">Get in touch</a>
+    </div>
+  </div>
+  <div class="hero-ticker">
+    <div class="ticker-track">
+      <span>PCB Design</span><span class="sep">·</span>
+      <span>Analog Signal Conditioning</span><span class="sep">·</span>
+      <span>BLE Integration</span><span class="sep">·</span>
+      <span>SMPS Design</span><span class="sep">·</span>
+      <span>LTspice</span><span class="sep">·</span>
+      <span>MATLAB / Simulink</span><span class="sep">·</span>
+      <span>DIgSILENT PowerFactory</span><span class="sep">·</span>
+      <span>Siemens TIA Portal</span><span class="sep">·</span>
+      <span>Python</span><span class="sep">·</span>
+      <span>Power Electronics</span><span class="sep">·</span>
+      <span>Control Systems</span><span class="sep">·</span>
+      <span>State-Space Design</span><span class="sep">·</span>
+      <span>PCB Design</span><span class="sep">·</span>
+      <span>Analog Signal Conditioning</span><span class="sep">·</span>
+      <span>BLE Integration</span><span class="sep">·</span>
+      <span>SMPS Design</span><span class="sep">·</span>
+      <span>LTspice</span><span class="sep">·</span>
+      <span>MATLAB / Simulink</span><span class="sep">·</span>
+      <span>DIgSILENT PowerFactory</span><span class="sep">·</span>
+      <span>Siemens TIA Portal</span><span class="sep">·</span>
+      <span>Python</span><span class="sep">·</span>
+      <span>Power Electronics</span><span class="sep">·</span>
+      <span>Control Systems</span><span class="sep">·</span>
+      <span>State-Space Design</span><span class="sep">·</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WORK ═══ -->
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="s-eyebrow reveal">
+      <span class="s-num">01</span><span class="s-label">Featured Project</span>
+    </div>
+
+    <div class="proj-top reveal">
+      <div class="proj-title-block">
+        <h2 class="proj-title">Multiplexed Wearable<br>Biosensor</h2>
+        <div class="proj-meta">
+          <span>RMIT FMM Lab · 2025–Present</span>
+          <span>Supervised: Prof. Bhaskaran · Prof. Sriram</span>
+        </div>
+      </div>
+      <p class="proj-logline">Non-invasive glucose + sodium monitoring from sweat. The entire sensing system — sensor, AFE, MCU, BLE radio — has to fit inside an eyeglass temple. That's a <strong>&lt;12mm width constraint.</strong></p>
+    </div>
+
+    <!-- Spec strip -->
+    <div class="spec-strip reveal">
+      <div class="spec-item">
+        <div class="spec-val">&lt;12mm</div>
+        <div class="spec-key">Form factor</div>
+      </div>
+      <div class="spec-div"></div>
+      <div class="spec-item">
+        <div class="spec-val">40µm</div>
+        <div class="spec-key">Electrode pitch</div>
+      </div>
+      <div class="spec-div"></div>
+      <div class="spec-item">
+        <div class="spec-val">2</div>
+        <div class="spec-key">Analytes detected</div>
+      </div>
+      <div class="spec-div"></div>
+      <div class="spec-item">
+        <div class="spec-val">0</div>
+        <div class="spec-key">Blood required</div>
+      </div>
+      <div class="spec-div"></div>
+      <div class="spec-item">
+        <div class="spec-val">600mV</div>
+        <div class="spec-key">Ripple predicted & solved</div>
+      </div>
+    </div>
+
+    <!-- Problems -->
+    <div class="problems reveal">
+      <div class="prob-label">Two failures predicted on paper. Zero prototypes wasted.</div>
+      <div class="prob-grid">
+        <div class="prob-card">
+          <div class="prob-top">
+            <span class="prob-num">P01</span>
+            <span class="prob-name">15-Second Diffusion Crisis</span>
+          </div>
+          <p class="prob-body">Fick's Laws: H⁺ ions from the GOx reaction would cross the 5mm inter-electrode gap in 10–15 seconds. The sodium baseline would be chemically destroyed before the 60-second glucose window closed.</p>
+          <div class="prob-solve">
+            <span class="solve-tag">Solved</span>
+            Rerouted the flex PCB into a T-Wing geometry. Physical isolation extended diffusion time to &gt;90 seconds. Geometry solved chemistry.
+          </div>
+        </div>
+        <div class="prob-card">
+          <div class="prob-top">
+            <span class="prob-num">P02</span>
+            <span class="prob-name">BLE Voltage Crash</span>
+          </div>
+          <p class="prob-body">Calculated: 15mA BLE burst × 40Ω CR2032 ESR = 600mV sag per transmission. Op-amp outputs would rail and mask every physiological reading.</p>
+          <div class="prob-solve">
+            <span class="solve-tag">Solved</span>
+            Replaced CR2032 with 112mAh LiPo + Dual-LDO analog/digital isolation. All on paper, before a single component was ordered.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Architecture pill row -->
+    <div class="arch-row reveal">
+      <div class="arch-pill">
+        <span class="arch-key">MCU</span>
+        <span class="arch-val">u-blox ANNA-B402</span>
+      </div>
+      <div class="arch-pill">
+        <span class="arch-key">AFE</span>
+        <span class="arch-val">TI OPA2333 Zero-Drift</span>
+      </div>
+      <div class="arch-pill">
+        <span class="arch-key">Power</span>
+        <span class="arch-val">112mAh LiPo + Dual-LDO</span>
+      </div>
+      <div class="arch-pill">
+        <span class="arch-key">RF</span>
+        <span class="arch-val">BLE 2.4GHz</span>
+      </div>
+      <div class="arch-pill arch-pill--status">
+        <span class="arch-key">Status</span>
+        <span class="arch-val arch-live">Flex PCB delivered · Rigid board in EDA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EXPERIENCE ═══ -->
+<section class="section section-alt" id="experience">
+  <div class="wrap">
+    <div class="s-eyebrow reveal">
+      <span class="s-num">02</span><span class="s-label">Experience</span>
+    </div>
+
+    <div class="exp-grid">
+
+      <div class="exp-card exp-card--research reveal">
+        <div class="exp-card-inner">
+          <div class="exp-header">
+            <span class="exp-index">01</span>
+            <div class="exp-icon exp-icon--lab">⬡</div>
+          </div>
+          <div class="exp-type">Research · Lab Work</div>
+          <h3 class="exp-role">FMM Research Lab</h3>
+          <p class="exp-org">RMIT Functional Materials &amp; Microsystems · 2025–Present</p>
+          <p class="exp-desc">Designing and building a wearable multi-analyte biosensor under Prof. Bhaskaran and Prof. Sriram — from EDA schematic through flex PCB manufacture. Predictive mathematical modelling before every fabrication decision.</p>
+          <div class="exp-tags">
+            <span>Mixed-Signal PCB</span>
+            <span>Electrochemistry</span>
+            <span>BLE</span>
+            <span>LTspice</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-card exp-card--tedx reveal">
+        <div class="exp-card-inner">
+          <div class="exp-header">
+            <span class="exp-index">02</span>
+            <div class="exp-icon exp-icon--tedx">▣</div>
+          </div>
+          <div class="exp-type">Leadership · Event Management</div>
+          <h3 class="exp-role">TEDx College Organiser</h3>
+          <p class="exp-org">2023 – 2024</p>
+          <p class="exp-desc">End-to-end event logistics, speaker coordination, and stakeholder communication for multiple TEDx events — 100+ attendees each. Led a 10+ member cross-functional team across planning and on-ground execution. Resolved live operational issues under time pressure.</p>
+          <div class="exp-tags">
+            <span>Team Leadership</span>
+            <span>Event Operations</span>
+            <span>Stakeholder Comms</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-card exp-card--volunteer reveal">
+        <div class="exp-card-inner">
+          <div class="exp-header">
+            <span class="exp-index">03</span>
+            <div class="exp-icon exp-icon--vol">◈</div>
+          </div>
+          <div class="exp-type">Community · Volunteering</div>
+          <h3 class="exp-role">Conquer Cancer Australia</h3>
+          <p class="exp-org">Guinness World Record Relay · May 2026</p>
+          <p class="exp-desc">Volunteer at a large-scale national public event in Melbourne. Managed simultaneous responsibilities across participant registration, donation coordination, photography, BBQ logistics, and ushering — all under real-time pressure at a high-visibility event.</p>
+          <div class="exp-tags">
+            <span>Event Logistics</span>
+            <span>Multi-tasking</span>
+            <span>Public Engagement</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-card exp-card--sport reveal">
+        <div class="exp-card-inner">
+          <div class="exp-header">
+            <span class="exp-index">04</span>
+            <div class="exp-icon exp-icon--swim">〜</div>
+          </div>
+          <div class="exp-type">Athletics · Discipline</div>
+          <h3 class="exp-role">National-Level Swimmer</h3>
+          <p class="exp-org">India · 2017 – 2024</p>
+          <p class="exp-desc">10–12 training sessions per week alongside a full academic load for seven consecutive years. Competing at national level demands performance consistency, immediate pressure management, and disciplined recovery — the same cognitive stack an engineering environment requires.</p>
+          <div class="exp-tags">
+            <span>7 Years</span>
+            <span>National Level</span>
+            <span>High Performance</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STACK — the EE easter egg ═══ -->
+<section class="section" id="stack">
+  <div class="wrap">
+    <div class="s-eyebrow reveal">
+      <span class="s-num">03</span><span class="s-label">Technical Stack</span>
+    </div>
+
+    <div class="stack-intro reveal">
+      <h2 class="stack-title">Skills as a PCB layer stack.</h2>
+      <p class="stack-sub">Every skill lives at a defined layer — from copper traces to firmware. Scroll the stackup.</p>
+    </div>
+
+    <div class="stackup reveal">
+      <!-- Layer 1 — Physical -->
+      <div class="layer layer-1">
+        <div class="layer-side">
+          <span class="layer-num">L1</span>
+          <span class="layer-name">Physical Layer</span>
+          <span class="layer-material">FR-4 · Copper · Solder Mask</span>
+        </div>
+        <div class="layer-body">
+          <div class="layer-skills">
+            <span>PCB Design (2-layer mixed-signal)</span>
+            <span>Analog signal conditioning</span>
+            <span>Sensor interfacing</span>
+            <span>Hardware prototyping</span>
+            <span>Soldering & assembly</span>
+          </div>
+        </div>
+        <div class="layer-bar layer-bar-1"></div>
+      </div>
+
+      <!-- Layer 2 — Simulation -->
+      <div class="layer layer-2">
+        <div class="layer-side">
+          <span class="layer-num">L2</span>
+          <span class="layer-name">Simulation Layer</span>
+          <span class="layer-material">SPICE · MATLAB · PSIM</span>
+        </div>
+        <div class="layer-body">
+          <div class="layer-skills">
+            <span>LTspice — analog circuit sim</span>
+            <span>MATLAB / Simulink</span>
+            <span>PSIM — power electronics</span>
+            <span>DIgSILENT PowerFactory</span>
+          </div>
+        </div>
+        <div class="layer-bar layer-bar-2"></div>
+      </div>
+
+      <!-- Layer 3 — Systems -->
+      <div class="layer layer-3">
+        <div class="layer-side">
+          <span class="layer-num">L3</span>
+          <span class="layer-name">Systems Layer</span>
+          <span class="layer-material">Power · Control · Automation</span>
+        </div>
+        <div class="layer-body">
+          <div class="layer-skills">
+            <span>Power systems analysis & control</span>
+            <span>Switched mode power supply design</span>
+            <span>Advanced control systems (PID, pole-assignment)</span>
+            <span>PLC programming (Siemens TIA Portal)</span>
+            <span>Electrical energy conversion</span>
+          </div>
+        </div>
+        <div class="layer-bar layer-bar-3"></div>
+      </div>
+
+      <!-- Layer 4 — Code -->
+      <div class="layer layer-4">
+        <div class="layer-side">
+          <span class="layer-num">L4</span>
+          <span class="layer-name">Code Layer</span>
+          <span class="layer-material">Firmware · Scripting · ML</span>
+        </div>
+        <div class="layer-body">
+          <div class="layer-skills">
+            <span>Python (data analytics, neural networks)</span>
+            <span>Arduino IDE / Embedded C</span>
+            <span>nRF5 SDK (BLE firmware)</span>
+            <span>AutoCAD · SolidWorks</span>
+          </div>
+        </div>
+        <div class="layer-bar layer-bar-4"></div>
+      </div>
+
+      <!-- Stackup dimension line -->
+      <div class="stack-dimension">
+        <div class="dim-line"></div>
+        <span class="dim-label">1.6mm total · Dual degree RMIT + BITS Pilani</span>
+        <div class="dim-line"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section class="section section-contact" id="contact">
+  <div class="wrap">
+    <div class="contact-layout">
+      <div class="contact-left reveal">
+        <div class="s-eyebrow" style="margin-bottom:28px">
+          <span class="s-num">04</span><span class="s-label">Contact</span>
+        </div>
+        <h2 class="contact-big">Let's<br>talk.</h2>
+        <p class="contact-note">Internships in hardware, power systems, BMS, or energy storage. Melbourne or remote.</p>
+      </div>
+      <div class="contact-links reveal">
+        <a href="mailto:udit1044@gmail.com" class="c-link">
+          <span class="c-link-label">Email</span>
+          <span class="c-link-val">udit1044@gmail.com</span>
+          <span class="c-arrow">↗</span>
+        </a>
+        <a href="https://linkedin.com/in/udit-kothari-907541311" target="_blank" class="c-link">
+          <span class="c-link-label">LinkedIn</span>
+          <span class="c-link-val">udit-kothari</span>
+          <span class="c-arrow">↗</span>
+        </a>
+        <a href="https://github.com/UditKothari" target="_blank" class="c-link">
+          <span class="c-link-label">GitHub</span>
+          <span class="c-link-val">UditKothari</span>
+          <span class="c-arrow">↗</span>
+        </a>
+        <a href="tel:+61410949756" class="c-link">
+          <span class="c-link-label">Phone</span>
+          <span class="c-link-val">+61 0410 949 756</span>
+          <span class="c-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <span>© 2026 Udit Kothari</span>
+  <span>Melbourne, AU · RMIT + BITS Pilani</span>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
