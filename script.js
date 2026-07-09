@@ -1,5 +1,5 @@
 // ═══════════════════════════════
-// OSCILLOSCOPE CANVAS
+// OSCILLOSCOPE CANVAS (hero)
 // ═══════════════════════════════
 const canvas = document.getElementById('scope');
 const ctx    = canvas.getContext('2d');
@@ -57,7 +57,7 @@ function ekg(x, t) {
   return base + spike;
 }
 
-function draw() {
+function drawScope() {
   ctx.clearRect(0, 0, W, H);
   t += 0.008;
   const acc = 'rgba(79,140,240,';
@@ -104,7 +104,7 @@ function draw() {
     ctx.stroke();
   }
 
-  raf = requestAnimationFrame(draw);
+  raf = requestAnimationFrame(drawScope);
 }
 
 window.addEventListener('scroll', () => {
@@ -113,9 +113,220 @@ window.addEventListener('scroll', () => {
   canvas.style.opacity = String(1 - ratio * 0.92);
 }, { passive: true });
 
-window.addEventListener('resize', () => { cancelAnimationFrame(raf); resize(); draw(); });
+window.addEventListener('resize', () => { cancelAnimationFrame(raf); resize(); drawScope(); });
 resize();
-draw();
+drawScope();
+
+
+// ═══════════════════════════════════════════════════
+// PCB COPPER TRACE BACKGROUND
+// Draws orthogonal copper/gold traces with pads and
+// slow signal pulses travelling along them.
+// Visible below the hero, fades in on scroll.
+// ═══════════════════════════════════════════════════
+(function() {
+  const pcb = document.getElementById('pcb-canvas');
+  const pc  = pcb.getContext('2d');
+  let PW, PH, pcbRaf;
+  let pcbTraces = [];
+  let pcbPads   = [];
+  let pcbTime   = 0;
+  let pcbVisible = false;
+
+  // copper color palette
+  const COPPER   = 'rgba(180, 130, 60,';   // warm copper
+  const COPPER_B = 'rgba(210, 160, 70,';   // brighter highlight
+  const PAD_C    = 'rgba(200, 150, 55,';   // pad fill
+  const SIGNAL   = 'rgba(255, 200, 80,';   // signal pulse colour
+
+  function pcbResize() {
+    PW = pcb.width  = window.innerWidth;
+    PH = pcb.height = window.innerHeight;
+    buildPCB();
+  }
+
+  // Build an orthogonal trace network that covers the whole page
+  function buildPCB() {
+    pcbTraces = [];
+    pcbPads   = [];
+
+    // grid spacing
+    const GX = Math.round(PW / 11);
+    const GY = Math.round(PH / 8);
+    const cols = 12;
+    const rows = 9;
+
+    // snap point grid
+    const pts = [];
+    for (let c = 0; c < cols; c++) {
+      for (let r = 0; r < rows; r++) {
+        // jitter each grid point slightly for organic feel
+        pts.push({
+          x: c * GX + (Math.random() < 0.4 ? Math.round((Math.random()-.5)*GX*0.4) : 0),
+          y: r * GY + (Math.random() < 0.4 ? Math.round((Math.random()-.5)*GY*0.4) : 0),
+          c, r,
+        });
+      }
+    }
+
+    // connect adjacent grid points with orthogonal routes
+    // PCB traces are always horizontal or vertical, never diagonal
+    const connected = new Set();
+    for (let i = 0; i < pts.length; i++) {
+      const p = pts[i];
+      // try right neighbour
+      const right = pts.find(q => q.c === p.c+1 && q.r === p.r);
+      // try down neighbour
+      const down  = pts.find(q => q.c === p.c   && q.r === p.r+1);
+
+      if (right && Math.random() > 0.25) {
+        const key = i + '-' + pts.indexOf(right);
+        if (!connected.has(key)) {
+          connected.add(key);
+          addOrthogonalTrace(p, right);
+        }
+      }
+      if (down && Math.random() > 0.25) {
+        const key = i + '-' + pts.indexOf(down);
+        if (!connected.has(key)) {
+          connected.add(key);
+          addOrthogonalTrace(p, down);
+        }
+      }
+    }
+
+    // place pads at a random subset of grid intersections
+    for (const p of pts) {
+      if (Math.random() < 0.28) {
+        pcbPads.push({ x: p.x, y: p.y, r: Math.random() > 0.5 ? 5 : 3.5, phase: Math.random()*Math.PI*2 });
+      }
+    }
+  }
+
+  // Orthogonal route: horizontal then vertical (L-shape)
+  function addOrthogonalTrace(a, b) {
+    // 50/50 — go horizontal first or vertical first
+    const goHorizFirst = Math.random() > 0.5;
+    let mid;
+    if (goHorizFirst) {
+      mid = { x: b.x, y: a.y };
+    } else {
+      mid = { x: a.x, y: b.y };
+    }
+    // segment 1
+    if (a.x !== mid.x || a.y !== mid.y) {
+      pcbTraces.push({
+        x1: a.x, y1: a.y, x2: mid.x, y2: mid.y,
+        len: Math.hypot(mid.x-a.x, mid.y-a.y),
+        phase: Math.random()*Math.PI*2,
+        speed: 0.003 + Math.random()*0.004,
+        pulse: Math.random() > 0.55,
+        pulsePos: Math.random(),
+      });
+    }
+    // segment 2
+    if (mid.x !== b.x || mid.y !== b.y) {
+      pcbTraces.push({
+        x1: mid.x, y1: mid.y, x2: b.x, y2: b.y,
+        len: Math.hypot(b.x-mid.x, b.y-mid.y),
+        phase: Math.random()*Math.PI*2,
+        speed: 0.003 + Math.random()*0.004,
+        pulse: Math.random() > 0.55,
+        pulsePos: Math.random(),
+      });
+    }
+  }
+
+  function drawPCB() {
+    pc.clearRect(0, 0, PW, PH);
+    pcbTime += 0.008;
+
+    // Draw traces
+    for (const tr of pcbTraces) {
+      const base = 0.04 + Math.sin(tr.phase + pcbTime * 0.3) * 0.015;
+      pc.beginPath();
+      pc.moveTo(tr.x1, tr.y1);
+      pc.lineTo(tr.x2, tr.y2);
+      pc.strokeStyle = COPPER + base + ')';
+      pc.lineWidth = 1.2;
+      pc.stroke();
+
+      // travelling signal pulse
+      if (tr.pulse) {
+        tr.pulsePos = (tr.pulsePos + tr.speed) % 1;
+        const px = tr.x1 + (tr.x2 - tr.x1) * tr.pulsePos;
+        const py = tr.y1 + (tr.y2 - tr.y1) * tr.pulsePos;
+
+        // glow
+        const grd = pc.createRadialGradient(px, py, 0, px, py, 12);
+        grd.addColorStop(0, SIGNAL + '0.25)');
+        grd.addColorStop(1, SIGNAL + '0)');
+        pc.beginPath();
+        pc.arc(px, py, 12, 0, Math.PI * 2);
+        pc.fillStyle = grd;
+        pc.fill();
+
+        // dot
+        pc.beginPath();
+        pc.arc(px, py, 2, 0, Math.PI * 2);
+        pc.fillStyle = SIGNAL + '0.7)';
+        pc.fill();
+      }
+    }
+
+    // Draw pads (PTH / SMD style circles)
+    for (const pad of pcbPads) {
+      pad.phase += 0.01;
+      const a = 0.12 + Math.sin(pad.phase) * 0.04;
+
+      // outer ring
+      pc.beginPath();
+      pc.arc(pad.x, pad.y, pad.r + 2, 0, Math.PI * 2);
+      pc.strokeStyle = COPPER + (a * 0.7) + ')';
+      pc.lineWidth = 0.8;
+      pc.stroke();
+
+      // inner fill
+      pc.beginPath();
+      pc.arc(pad.x, pad.y, pad.r, 0, Math.PI * 2);
+      pc.fillStyle = PAD_C + (a * 0.5) + ')';
+      pc.fill();
+
+      // drill hole (dark centre)
+      if (pad.r > 4) {
+        pc.beginPath();
+        pc.arc(pad.x, pad.y, 2, 0, Math.PI * 2);
+        pc.fillStyle = 'rgba(8,8,9,0.85)';
+        pc.fill();
+      }
+    }
+
+    pcbRaf = requestAnimationFrame(drawPCB);
+  }
+
+  // Show PCB canvas once user scrolls past hero
+  function checkPCBVisibility() {
+    const heroH = document.querySelector('.hero').offsetHeight;
+    const scrolled = window.scrollY > heroH * 0.3;
+    if (scrolled && !pcbVisible) {
+      pcbVisible = true;
+      pcb.classList.add('visible');
+      drawPCB();
+    } else if (!scrolled && pcbVisible) {
+      pcbVisible = false;
+      pcb.classList.remove('visible');
+      cancelAnimationFrame(pcbRaf);
+    }
+  }
+
+  window.addEventListener('scroll', checkPCBVisibility, { passive: true });
+  window.addEventListener('resize', () => {
+    cancelAnimationFrame(pcbRaf);
+    pcbResize();
+    if (pcbVisible) drawPCB();
+  });
+  pcbResize();
+})();
 
 
 // ═══════════════════════════════
@@ -129,28 +340,16 @@ function openModal(cardEl) {
   const modalId = cardEl.dataset.modal;
   const cardKey = cardEl.dataset.card;
   if (!modalId) return;
-
   const modal = document.getElementById(modalId);
   if (!modal) return;
 
-  // Hide any visible modal first
-  document.querySelectorAll('.modal.visible').forEach(m => {
-    m.classList.remove('visible', 'animated');
-  });
+  document.querySelectorAll('.modal.visible').forEach(m => m.classList.remove('visible', 'animated'));
 
-  // Set color class on overlay
   overlay.className = 'modal-overlay active for-' + cardKey;
-
   modal.classList.add('visible');
   document.body.style.overflow = 'hidden';
 
-  // Trigger animation on next frame
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      modal.classList.add('animated');
-    });
-  });
-
+  requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('animated')));
   activeModal = modal;
 }
 
@@ -159,30 +358,16 @@ function closeModal() {
   activeModal.classList.remove('animated');
   overlay.classList.remove('active');
   document.body.style.overflow = '';
-
   setTimeout(() => {
-    if (activeModal) {
-      activeModal.classList.remove('visible');
-      activeModal = null;
-    }
+    if (activeModal) { activeModal.classList.remove('visible'); activeModal = null; }
     overlay.className = 'modal-overlay';
   }, 320);
 }
 
-document.querySelectorAll('.exp-card').forEach(card => {
-  card.addEventListener('click', () => openModal(card));
-});
-
+document.querySelectorAll('.exp-card').forEach(card => card.addEventListener('click', () => openModal(card)));
 closeBtn.addEventListener('click', closeModal);
-
-overlay.addEventListener('click', (e) => {
-  // close if clicking the backdrop (not the modal itself)
-  if (e.target === overlay) closeModal();
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeModal();
-});
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 
 // ═══════════════════════════════
@@ -204,8 +389,7 @@ const so = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (!e.isIntersecting) return;
     navLinks.forEach(l => {
-      l.style.color = l.getAttribute('href') === '#' + e.target.id
-        ? 'rgba(239,239,239,0.9)' : '';
+      l.style.color = l.getAttribute('href') === '#' + e.target.id ? 'rgba(239,239,239,0.9)' : '';
     });
   });
 }, { threshold: 0.35 });
